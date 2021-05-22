@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
+import Home from "./Pages/General/Home";
+import InvalidPage from "./Pages/General/InvalidPage";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+/**
+ * Returns the root of the application
+ *
+ * @remarks
+ * This is the entry point of the project.
+ *
+ * @returns The App that acts as the project entry point
+ */
+function App(): JSX.Element {
+    return (
+        <Router data-testid="router">
+            <div className="App">
+                <Navbar bg="dark" variant="dark" className="nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/">Home</Nav.Link>
+                        {localStorage.getItem("loggedIn") !== "true" && (
+                            <Nav.Link href="/register">Register</Nav.Link>
+                        )}
+                        {localStorage.getItem("loggedIn") !== "true" && (
+                            <Nav.Link href="/login">Login</Nav.Link>
+                        )}
+                    </Nav>
+                </Navbar>
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
+                    </Route>
+                    <Route path="*">
+                        <InvalidPage />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
