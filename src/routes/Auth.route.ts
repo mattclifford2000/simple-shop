@@ -57,9 +57,9 @@ router.post("/register", async (req: Request, res: Response) => {
 
     const authToken = jwt.sign(savedUser.email, secret);
     return res.send({
-        authToken,
+        token: authToken,
         id: savedUser._id,
-        email: savedUser.email,
+        role: savedUser.role,
     });
 });
 
@@ -94,8 +94,8 @@ router.post("/login", async (req, res) => {
     }
     const authToken = jwt.sign(user.toJSON(), secret);
     return res.send({
-        email: user.email,
-        authToken,
+        token: authToken,
+        role: user.role,
         id: user._id,
     });
 });

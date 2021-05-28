@@ -1,7 +1,9 @@
 import React from "react";
 import Login from "./Pages/Auth/Login";
+import Logout from "./Pages/Auth/Logout";
 import Register from "./Pages/Auth/Register";
 import Home from "./Pages/General/Home";
+import Profile from "./Pages/User/Profile";
 import InvalidPage from "./Pages/General/InvalidPage";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
@@ -29,6 +31,12 @@ function App(): JSX.Element {
                         {localStorage.getItem("loggedIn") !== "true" && (
                             <Nav.Link href="/login">Login</Nav.Link>
                         )}
+                        {localStorage.getItem("loggedIn") === "true" && (
+                            <Nav.Link href="/profile">Profile</Nav.Link>
+                        )}
+                        {localStorage.getItem("loggedIn") === "true" && (
+                            <Nav.Link href="/logout">Logout</Nav.Link>
+                        )}
                     </Nav>
                 </Navbar>
                 <Switch>
@@ -40,6 +48,12 @@ function App(): JSX.Element {
                     </Route>
                     <Route path="/register">
                         <Register />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
+                    </Route>
+                    <Route path="/logout">
+                        <Logout />
                     </Route>
                     <Route path="*">
                         <InvalidPage />

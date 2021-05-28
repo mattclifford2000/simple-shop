@@ -97,11 +97,11 @@ function Register(): JSX.Element {
             .then((res) => {
                 setStatus(200);
                 setError("Successful register.");
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("email", res.data.email);
-                localStorage.setItem("usertype", res.data.userType);
-                localStorage.setItem("loggedIn", "true");
-                window.location.href = "/";
+               localStorage.setItem("token", res.data.token);
+               localStorage.setItem("id", res.data.id);
+               localStorage.setItem("role", res.data.role);
+               localStorage.setItem("loggedIn", "true");
+               window.location.href = "/";
             })
             .catch(function (error) {
                 setStatus(error.response.status);

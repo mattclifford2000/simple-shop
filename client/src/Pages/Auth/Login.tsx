@@ -64,8 +64,8 @@ const Login = (): JSX.Element => {
                 setStatus(200);
                 setError("Successful login.");
                 localStorage.setItem("token", res.data.token);
-                localStorage.setItem("email", res.data.email);
-                localStorage.setItem("usertype", res.data.userType);
+                localStorage.setItem("id", res.data.id);
+                localStorage.setItem("role", res.data.role);
                 localStorage.setItem("loggedIn", "true");
                 window.location.href = "/";
             })
