@@ -9,7 +9,10 @@ const AddProduct = (): JSX.Element => {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
+    const [quantity, setQuantity] = useState(0);
+    const [price, setPrice] = useState(0);
     const [url, setUrl] = useState("");
+    const [error, setError] = useState("");
     const [status, setStatus] = useState(0);
 
     useEffect(() => {
@@ -23,14 +26,49 @@ const AddProduct = (): JSX.Element => {
         setURL();
     }, [url]);
 
-   if (
-       localStorage.getItem("loggedIn") !== "true" ||
-       localStorage.getItem("role") !== "admin"
-   ) {
-       return <Redirect to="/" />;
-   }
+    if (
+        localStorage.getItem("loggedIn") !== "true" ||
+        localStorage.getItem("role") !== "admin"
+    ) {
+        return <Redirect to="/" />;
+    }
 
     function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        if (
+            name.length < 6 ||
+            category.length < 6 ||
+            description.length < 10 ||
+            quantity < 1 ||
+            quantity > 999 ||
+            !Number.isInteger(quantity) ||
+            price < 0.05 ||
+            price > 9999.99
+        ) {
+            setError("One or more details did not fit. Please try again.");
+            return;
+        }
+        const data = {
+            name: name,
+            category: category,
+            description: description,
+            quantity: quantity,
+            price: price,
+        };
+        axios
+            .post(`http://${url}:8080/admin/addproduct`, data)
+            .then((res) => {
+                setStatus(200);
+                setError("Successful add product.");
+                window.location.href = "/adminhome";
+            })
+            .catch(function (error) {
+                setStatus(error.response.status);
+                if (status !== 200) {
+                    setError(error.response.data);
+                    return;
+                }
+            });
         return 0;
     }
 
@@ -100,9 +138,57 @@ const AddProduct = (): JSX.Element => {
                             }}
                         />
                         {description.length < 10 && (
-                            <Form.Text>Please enter a valid name</Form.Text>
+                            <Form.Text>
+                                Please enter a valid description
+                            </Form.Text>
                         )}
                     </Form.Group>
+                    <Form.Group
+                        style={{ width: "15rem", margin: "auto" }}
+                        controlId="quantity"
+                    >
+                        <Form.Label>
+                            <span>Product Quantity</span>{" "}
+                        </Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="quantity"
+                            placeholder="Enter product quantity"
+                            value={quantity}
+                            onChange={(e) => {
+                                setQuantity(Number(e.target.value));
+                            }}
+                        />
+                        {quantity < 1 ||
+                            quantity > 999 ||
+                            (!Number.isInteger(quantity) && (
+                                <Form.Text>
+                                    Please enter a valid quantity
+                                </Form.Text>
+                            ))}
+                    </Form.Group>
+                    <Form.Group
+                        style={{ width: "15rem", margin: "auto" }}
+                        controlId="price"
+                    >
+                        <Form.Label>
+                            <span>Product Price</span>{" "}
+                        </Form.Label>
+                        <Form.Control
+                            type="number"
+                            name="price"
+                            placeholder="Enter product price"
+                            value={price}
+                            onChange={(e) => {
+                                setPrice(Number(e.target.value));
+                            }}
+                        />
+                        {price < 0.05 || price > 9999.99 && (
+                            <Form.Text>Please enter a valid price</Form.Text>
+                        )}
+                    </Form.Group>
+                    <br></br>
+                    {error}
                 </Form>
             </Card.Body>
             <Card.Footer>

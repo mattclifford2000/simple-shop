@@ -71,13 +71,11 @@ const Login = (): JSX.Element => {
             })
             .catch(function (error) {
                 console.error(error);
-                /*
                 setStatus(error.response.status);
                 if (status !== 200) {
                     setError(error.response.data);
                     return;
                 }
-                */
             });
     }
 
@@ -151,7 +149,8 @@ const Login = (): JSX.Element => {
                         Submit
                     </Button>
                     <Form.Text>
-                        New to the simple shop? <a href="/register">Register Here</a>.
+                        New to the simple shop?{" "}
+                        <a href="/register">Register Here</a>.
                     </Form.Text>
                     <br></br>
                 </div>
