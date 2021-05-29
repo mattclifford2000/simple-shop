@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import { Table } from "react-bootstrap";
 import dotenv from "dotenv";
+import context from "react-bootstrap/esm/AccordionContext";
 dotenv.config();
 
 function ProductList(): JSX.Element {
@@ -9,6 +12,7 @@ function ProductList(): JSX.Element {
     const [status, setStatus] = useState(0);
     const [error, setError] = useState("");
     const [url, setUrl] = useState("");
+    const history = useHistory();
 
     useEffect(() => {
         async function setURL() {
@@ -34,7 +38,13 @@ function ProductList(): JSX.Element {
 
     function handleProductClick(id: any) {
         console.log(id);
-        return 0;
+        history.push({
+            pathname: `/product/:${id}`,
+            state: {
+                // location state
+                id: id,
+            },
+        });
     }
 
     return (
@@ -51,9 +61,12 @@ function ProductList(): JSX.Element {
                 <tbody>
                     {products.map((product) => (
                         <tr
-                            key={product._id} onClick={() => handleProductClick(product._id)}
+                            key={product._id}
+                            data-href={`/product/:${product._id}`}
+                            onClick={() => handleProductClick(product._id)}
                         >
                             <td>{product.name}</td>
+
                             <td>{product.category}</td>
                             <td>${product.price}</td>
                         </tr>

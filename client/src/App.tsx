@@ -4,6 +4,7 @@ import Logout from "./Pages/Auth/Logout";
 import Register from "./Pages/Auth/Register";
 import Home from "./Pages/General/Home";
 import Profile from "./Pages/User/Profile";
+import Product from "./Pages/Shop/Product";
 import InvalidPage from "./Pages/General/InvalidPage";
 import AdminHome from "./Pages/Admin/AdminHome";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -36,7 +37,9 @@ function App(): JSX.Element {
                             <Nav.Link href="/profile">Profile</Nav.Link>
                         )}
                         {localStorage.getItem("role") === "admin" && (
-                            <Nav.Link href="/adminhome">Administration</Nav.Link>
+                            <Nav.Link href="/adminhome">
+                                Administration
+                            </Nav.Link>
                         )}
                         {localStorage.getItem("loggedIn") === "true" && (
                             <Nav.Link href="/logout">Logout</Nav.Link>
@@ -61,6 +64,9 @@ function App(): JSX.Element {
                     </Route>
                     <Route path="/adminhome">
                         <AdminHome />
+                    </Route>
+                    <Route exact path="/product/:id">
+                        <Product />
                     </Route>
                     <Route path="*">
                         <InvalidPage />
