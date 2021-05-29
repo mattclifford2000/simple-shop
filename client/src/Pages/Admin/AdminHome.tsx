@@ -5,7 +5,7 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import { Form, Button, Card, Badge } from "react-bootstrap";
+import { Button, Card, Badge } from "react-bootstrap";
 import AddProduct from '../Admin/AddProduct';
 
 const AdminHome = (): JSX.Element => {

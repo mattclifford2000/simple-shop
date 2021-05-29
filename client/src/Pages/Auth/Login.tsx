@@ -32,9 +32,9 @@ const Login = (): JSX.Element => {
 
     useEffect(() => {
         async function setURL() {
-            if (process.env.REACT_ENV === "development") {
+            if (process.env.NODE_ENV === "development") {
                 setUrl("localhost");
-            } else if (process.env.REACT_ENV === "production") {
+            } else if (process.env.NODE_ENV === "production") {
                 setUrl("remote");
             }
         }
@@ -70,11 +70,14 @@ const Login = (): JSX.Element => {
                 window.location.href = "/";
             })
             .catch(function (error) {
+                console.error(error);
+                /*
                 setStatus(error.response.status);
                 if (status !== 200) {
                     setError(error.response.data);
                     return;
                 }
+                */
             });
     }
 
