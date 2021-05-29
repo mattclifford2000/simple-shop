@@ -65,7 +65,7 @@ function App(): JSX.Element {
                     <Route path="/adminhome">
                         <AdminHome />
                     </Route>
-                    <Route exact path="/product/:id">
+                    <Route path="/product/:id">
                         <Product />
                     </Route>
                     <Route path="*">

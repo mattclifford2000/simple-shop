@@ -39,7 +39,7 @@ function ProductList(): JSX.Element {
     function handleProductClick(id: any) {
         console.log(id);
         history.push({
-            pathname: `/product/:${id}`,
+            pathname: `/product/${id}`,
             state: {
                 // location state
                 id: id,

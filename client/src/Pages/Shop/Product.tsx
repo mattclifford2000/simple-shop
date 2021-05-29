@@ -8,7 +8,7 @@ dotenv.config();
 function Product(props: any): JSX.Element { 
     const location = useLocation();
     const params = location.state as any;
-    const id = params.id;
+    const id: string = params.id;
     return (<div>Product {id}</div>);
 }
 
