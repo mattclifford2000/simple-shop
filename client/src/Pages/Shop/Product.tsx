@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
 import { useLocation, Redirect } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,6 +15,7 @@ function Product(): JSX.Element {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
     const [stock, setStock] = useState("out of stock.");
+    const [error, setError] = useState("");
 
     if (id === "" || id === null || id === undefined) {
         return <Redirect to="/" />;
@@ -51,6 +52,13 @@ function Product(): JSX.Element {
         getDetails();
     }, [id, url]);
 
+    function handleAdd(e: React.FormEvent) {
+        e.preventDefault();
+        const append = `${id} `;
+        localStorage.setItem("cart", localStorage.getItem("cart") + append);
+        setError("Product added.");
+    }
+
     return (
         <div>
             <h1>Product</h1>
@@ -59,6 +67,16 @@ function Product(): JSX.Element {
             <p>Description: {description}</p>
             <p>Price: ${price}</p>
             <p>This product is {stock}</p>
+            <Button
+                variant="primary"
+                data-testid="submit"
+                onClick={(e) => {
+                    handleAdd(e);
+                }}
+            >
+                Add to Cart
+            </Button>
+            {error}
         </div>
     );
 }

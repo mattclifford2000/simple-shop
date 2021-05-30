@@ -1,5 +1,6 @@
 import React from "react";
 import Login from "./Pages/Auth/Login";
+import Cart from "./Pages/Shop/Cart";
 import Logout from "./Pages/Auth/Logout";
 import Register from "./Pages/Auth/Register";
 import Home from "./Pages/General/Home";
@@ -44,6 +45,7 @@ function App(): JSX.Element {
                         {localStorage.getItem("loggedIn") === "true" && (
                             <Nav.Link href="/logout">Logout</Nav.Link>
                         )}
+                        <Nav.Link href="/cart">Cart</Nav.Link>
                     </Nav>
                 </Navbar>
                 <Switch>
@@ -67,6 +69,9 @@ function App(): JSX.Element {
                     </Route>
                     <Route path="/product/:id">
                         <Product />
+                    </Route>
+                    <Route path="/cart">
+                        <Cart />
                     </Route>
                     <Route path="*">
                         <InvalidPage />
