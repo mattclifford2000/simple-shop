@@ -15,7 +15,7 @@ router.get('/details/:id', async (req, res) => {
         return res
             .status(400)
             .send(
-                "Account does not exist with provided email and password combination."
+                "User does not exist with provided ID."
             );
     }
     console.log('User found');
