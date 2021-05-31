@@ -27,4 +27,20 @@ router.post("/addproduct", async (req: Request, res: Response) => {
     return res.status(200).send("Successful product add.");
 });
 
+router.post("/addstock", async (req: Request, res: Response) => { 
+    const stock: number = req.body.stock;
+    const product: number = req.body.product
+    await Product.updateOne({_id: product}, {
+        quantity: stock
+    });
+    return res.status(200).send('Stock update success.');
+})
+
+router.post("/deleteproduct", async (req: Request, res: Response) => { 
+    const product: string = req.body.product;
+    await Product.deleteOne({_id: product});
+    console.log('Successful delete.')
+    return res.status(200).send("Successful remove.");
+})
+
 export default router;

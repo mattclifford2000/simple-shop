@@ -55,6 +55,10 @@ router.post("/buy", async (req: Request, res: Response) => {
         quantity: product.quantity-1
     });
 
+    console.log('New quantity is ', product.quantity-1)
+
+    console.log('Product bought.');
+
     return res.status(200).send("Order success.")
 })
 

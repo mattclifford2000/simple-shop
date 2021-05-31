@@ -183,9 +183,12 @@ const AddProduct = (): JSX.Element => {
                                 setPrice(Number(e.target.value));
                             }}
                         />
-                        {price < 0.05 || price > 9999.99 && (
-                            <Form.Text>Please enter a valid price</Form.Text>
-                        )}
+                        {price < 0.05 ||
+                            (price > 9999.99 && (
+                                <Form.Text>
+                                    Please enter a valid price
+                                </Form.Text>
+                            ))}
                     </Form.Group>
                     <br></br>
                     {error}

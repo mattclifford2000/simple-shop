@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router";
 import { useLocation, Redirect } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,7 +16,9 @@ function Product(): JSX.Element {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
     const [stock, setStock] = useState("out of stock.");
+    const [updateStock, setUpdateStock] = useState(0);
     const [error, setError] = useState("");
+    const history = useHistory();
 
     if (id === "" || id === null || id === undefined) {
         return <Redirect to="/" />;
@@ -51,6 +54,48 @@ function Product(): JSX.Element {
         setURL();
         getDetails();
     }, [id, url]);
+
+    function handleUpdateStock(e: React.FormEvent) {
+        e.preventDefault();
+        if (
+            !Number.isInteger(updateStock) ||
+            updateStock < 1 ||
+            updateStock > 999
+        ) {
+            setError("Invalid amount of stock to add.");
+            return;
+        }
+        const data = {
+            stock: updateStock,
+            product: id
+        };
+        axios
+            .post(`http://${url}:8080/admin/addstock`, data)
+            .then((res) => {
+                setError("Stock update successful.");
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    function handleDeleteProduct(e: React.FormEvent) {
+        e.preventDefault();
+        const data = {
+            product: id,
+        };
+        axios
+            .post(`http://${url}:8080/admin/deleteproduct`, data)
+            .then((res) => {
+                history.push({
+                    pathname: `/`,
+                });
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+        return 0;
+    }
 
     function handleBuy(e: React.FormEvent) {
         e.preventDefault();
@@ -98,6 +143,52 @@ function Product(): JSX.Element {
             >
                 Buy
             </Button>
+            <br></br>
+            <br></br>
+            <br></br>
+            {localStorage.getItem("role") === "admin" && (
+                <div>
+                    <Form>
+                        <Form.Group
+                            style={{ width: "15rem", margin: "auto" }}
+                            controlId="stock"
+                        >
+                            <Form.Label>
+                                <span>Add Stock</span>{" "}
+                            </Form.Label>
+                            <Form.Control
+                                type="string"
+                                name="addstock"
+                                placeholder="Enter stock to add"
+                                value={updateStock}
+                                onChange={(e) => {
+                                    setUpdateStock(Number(e.target.value));
+                                }}
+                            />
+                        </Form.Group>
+                        <br></br>
+                        <Button
+                            onClick={(e) => {
+                                handleUpdateStock(e);
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </Form>
+                    <br></br>
+                    <Form.Label>
+                        <span>Delete Product</span>{" "}
+                    </Form.Label>
+                    <br></br>
+                    <Button
+                        onClick={(e) => {
+                            handleDeleteProduct(e);
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </div>
+            )}
             {error}
         </div>
     );

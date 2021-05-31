@@ -39,7 +39,7 @@ function Orders() {
 
     return (
         <div>
-            <h5 color="black">Products</h5>
+            <h5 color="black">Orders</h5>
             <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
