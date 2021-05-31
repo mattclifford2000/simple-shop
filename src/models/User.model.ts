@@ -56,24 +56,6 @@ export const UserSchema = new Schema({
         unique: false,
         required: true,
     },
-    wishlist: {
-        type: Array,
-        unique: false,
-        default: [],
-        required: true,
-    },
-    orders: {
-        type: Array,
-        unique: false,
-        default: [],
-        required: true,
-    },
-    cards: {
-        type: Array,
-        unique: false,
-        default: [],
-        required: true,
-    },
 });
 
 export default mongoose.model<IUser & Document>("User", UserSchema);

@@ -52,11 +52,27 @@ function Product(): JSX.Element {
         getDetails();
     }, [id, url]);
 
-    function handleAdd(e: React.FormEvent) {
+    function handleBuy(e: React.FormEvent) {
         e.preventDefault();
         const append = `${id} `;
-        localStorage.setItem("cart", localStorage.getItem("cart") + append);
-        setError("Product added.");
+        if (
+            localStorage.getItem("id") === null ||
+            localStorage.getItem("id") === undefined ||
+            localStorage.getItem("id") === ""
+        ) {
+            setError("Only a logged in user can buy something.");
+            return;
+        }
+        if (price < 1) {
+            setError("Out of stock.");
+            return;
+        }
+        const data = {
+            productID: id,
+            userID: localStorage.getItem("id"),
+            price: price
+        };
+        axios.post("http://${url}:8080/shop/buy", data).then().catch();
     }
 
     return (
@@ -71,10 +87,10 @@ function Product(): JSX.Element {
                 variant="primary"
                 data-testid="submit"
                 onClick={(e) => {
-                    handleAdd(e);
+                    handleBuy(e);
                 }}
             >
-                Add to Cart
+                Buy
             </Button>
             {error}
         </div>

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
 import Product from "../models/Product.model";
+import Order from "../models/Order.model";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -31,5 +32,30 @@ router.get("/product/:id", async (req: Request, res: Response) => {
     console.log('Details successfully set.');
     return res.status(200).send({name: name, category: category, description: description, quantity: quantity, price: price})
 });
+
+router.post("/buy", async (req: Request, res: Response) => {
+    const userID: string = req.body.userID;
+    const productID: string = req.body.productID;
+    const price: number = req.body.price;
+    const order = new Order({
+        product: productID,
+        user: userID,
+        date: new Date(),
+        price: price
+    });
+
+    await order.save();
+
+    const product = await Product.findOne({ _id: productID });
+    if (!product) {
+        return;
+    }
+
+    await Product.updateOne({_id: productID}, {
+        quantity: product.quantity-1
+    });
+
+    return res.status(200).send("Order success.")
+})
 
 export default router;
