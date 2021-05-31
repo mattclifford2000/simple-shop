@@ -13,4 +13,4 @@ ACCESS_TOKEN_SECRET='[secret]'
 
 ## Future
 
-Aside from potential minor updates, this project is unlikely to be updated in the future. It is a learning concept and does not represent a commercial product.
+Aside from potential minor updates, this project is unlikely to be updated in the future. It is a learning concept and does not represent a commercial product. You are free to use or modify this project for your own purposes.
