@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import { Table } from "react-bootstrap";
 import dotenv from "dotenv";
-import context from "react-bootstrap/esm/AccordionContext";
 dotenv.config();
 
 function ProductList(): JSX.Element {

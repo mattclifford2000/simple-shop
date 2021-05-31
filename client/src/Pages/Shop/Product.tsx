@@ -54,7 +54,6 @@ function Product(): JSX.Element {
 
     function handleBuy(e: React.FormEvent) {
         e.preventDefault();
-        const append = `${id} `;
         if (
             localStorage.getItem("id") === null ||
             localStorage.getItem("id") === undefined ||
@@ -70,9 +69,16 @@ function Product(): JSX.Element {
         const data = {
             productID: id,
             userID: localStorage.getItem("id"),
-            price: price
+            price: price,
         };
-        axios.post("http://${url}:8080/shop/buy", data).then().catch();
+        axios
+            .post(`http://${url}:8080/shop/buy`, data)
+            .then((res) => {
+                setError("Purchase success");
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
     }
 
     return (
